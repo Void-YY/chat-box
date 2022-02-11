@@ -1,0 +1,10 @@
+/**
+ * Fonts
+ */
+@import './variables.scss';
+
+html,
+body {
+  font-family: $baseFont;
+  height: 100%;
+}
