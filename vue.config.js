@@ -17,23 +17,22 @@ module.exports = {
     },
   },
   devServer: {
-    port: 8080,
+    port: 9090,
     open: true,
     overlay: {
       warnings: false,
       errors: true,
     },
     // before: require('./mock/mock-server.js'),
-    proxy: {
-      // サーバー
-      '/api': {
-        target: 'http://localhost:3100',
-        // changeOrigin: true,
-        pathRewrite: {
-          '^/api': '/api',
-        },
-      },
-    },
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:3100',
+    //     // changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/api': '/api',
+    //     },
+    //   },
+    // },
   },
   css: {
     loaderOptions: {

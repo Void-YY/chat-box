@@ -16,13 +16,13 @@ io.on('connection', (socket) => {
       socketId: socket.id,
     }
     const existUser = await findUser(user, false).catch(console.dir)
-    console.warn(existUser)
+    console.warn('existUser:', existUser)
     if (!existUser) {
       await insertUser(user).catch(console.dir)
     }
     const allUsers = await findAllUser().catch(console.dir)
 
-    socket.broadcast.emit(EVENT.UPDATE_USER_LIST, allUsers)
+    io.emit(EVENT.UPDATE_USER_LIST, allUsers)
   })
 
   socket.on('disconnect', function () {

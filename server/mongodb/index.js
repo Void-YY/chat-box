@@ -10,10 +10,13 @@ async function insertUser(user) {
   try {
     await client.connect()
 
-    const database = await client.db('chat')
+    const database = client.db('chat')
     const users = await database.collection('users')
     const query = user
     await users.insertOne(query)
+    return new Promise((resolve, reject) => {
+      resolve()
+    })
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close()
@@ -24,7 +27,7 @@ async function findUser(user, updateFlag = false) {
   try {
     await client.connect()
 
-    const database = await client.db('chat')
+    const database = client.db('chat')
     const users = await database.collection('users')
     const result = updateFlag
       ? await users.findOneAndUpdate(
@@ -34,7 +37,10 @@ async function findUser(user, updateFlag = false) {
           }
         )
       : await users.findOne({ name: user.name })
-    return result
+
+    return new Promise((resolve, reject) => {
+      resolve(result)
+    })
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close()
@@ -45,10 +51,13 @@ async function findAllUser() {
   try {
     await client.connect()
 
-    const database = await client.db('chat')
+    const database = client.db('chat')
     const users = await database.collection('users')
     const result = await users.find().toArray()
-    return result
+
+    return new Promise((resolve, reject) => {
+      resolve(result)
+    })
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close()
