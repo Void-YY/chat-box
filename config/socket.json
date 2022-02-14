@@ -1,0 +1,8 @@
+{
+  "url": "ws://localhost",
+  "port": 8081,
+  "event": {
+    "REGISTER": "REGISTER",
+    "UPDATE_USER_LIST": "UPDATE_USER_LIST"
+  }
+}

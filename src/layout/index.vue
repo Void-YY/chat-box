@@ -7,36 +7,66 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="/home">Home</b-nav-item>
+          <b-nav-item
+            @click="
+              changeRoute({
+                name: 'Home',
+                query: {
+                  name: $store.state.user.login_info.name,
+                },
+              })
+            "
+          >
+            Home
+          </b-nav-item>
+        </b-navbar-nav>
+        <b-navbar-nav>
+          <b-nav-item @click="signOut"> Sign Out </b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
+        <!-- <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
-            <!-- Using 'button-content' slot -->
             <template #button-content>
               <em>User</em>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            <b-dropdown-item @click="signOut">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
-        </b-navbar-nav>
+        </b-navbar-nav> -->
       </b-collapse>
     </b-navbar>
-    <router-view class="route"></router-view>
+    <transition name="fade-transform" mode="out-in">
+      <router-view class="route"></router-view>
+    </transition>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    changeRoute(route) {
+      this.$router.push(route)
+    },
+    signOut() {
+      this.$store.dispatch('user/signOut')
+    },
+  },
+}
+</script>
 <style lang="scss" scoped>
-.main-layout{
+.main-layout {
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  > .nav{
+  .router-link {
+    color: #fff;
+  }
+  > .nav {
     width: 100%;
   }
-  > .route{
+  > .route {
     width: 100%;
     flex-grow: 1;
   }

@@ -1,7 +1,15 @@
 <template>
   <div class="chat-area">
     <b-alert class="title" show>{{ $route.query.name }}</b-alert>
-    <div class="history-area"></div>
+    <div class="history-area">
+      <b-alert show variant="primary" class="bubble from-they">
+        Primary Alert</b-alert
+      >
+      <b-alert show variant="dark" class="bubble from-me">
+        Primary AlertPrimary AlertPrimary AlertPrimary AlertPrimary AlertPrimary
+        AlertPrimary AlertPrimary Alert</b-alert
+      >
+    </div>
     <b-input-group class="input-area">
       <b-form-input
         size="lg"
@@ -18,16 +26,16 @@
 export default {
   data() {
     return {
-      text: "",
-      message: "",
-    };
+      text: '',
+      message: '',
+    }
   },
   methods: {
     toRoom() {
-      this.$router.push("/room");
+      this.$router.push('/room')
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .chat-area {
@@ -46,6 +54,16 @@ export default {
     overflow-y: auto;
     border: 1px solid #ccc;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    > .bubble {
+      text-align: left;
+      width: fit-content;
+      max-width: 80vw;
+      &.from-me {
+        align-self: flex-end;
+      }
+    }
   }
   > .input-area {
     align-self: end;

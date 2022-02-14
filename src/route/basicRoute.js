@@ -2,25 +2,25 @@
 import Layout from '@/layout'
 const basicRoute = [
   {
-    path: "/login",
-    component: () => import("@/views/Login"),
+    path: '/login',
+    component: () => import('@/views/Login'),
   },
   {
-    path: "/",
+    path: '/',
     component: Layout,
-    redirect: "/home",
+    redirect: '/home',
     children: [
       {
-        path: "home",
-        component: () => import("@/views/Home"),
-        name: "Home",
-        meta: { title: "Home" },
+        path: 'home',
+        component: () => import('@/views/Home'),
+        name: 'Home',
+        meta: { title: 'Home' },
       },
       {
-        path: "chat",
-        component: () => import("@/views/Chat"),
-        name: "Chat",
-        meta: { title: "Chat" },
+        path: 'chat',
+        component: () => import('@/views/Chat'),
+        name: 'Chat',
+        meta: { title: 'Chat' },
       },
     ],
   },
@@ -42,7 +42,7 @@ const basicRoute = [
   //     },
   //   ],
   // },
-];
+]
 
 /* Layout */
-export default basicRoute;
+export default basicRoute

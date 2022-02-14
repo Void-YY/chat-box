@@ -36,20 +36,26 @@ export default {
   data() {
     return {
       form: {
-        name: "",
-        password: "",
+        name: '',
+        password: '',
       },
       show: true,
-    };
+    }
   },
   methods: {
     onSubmit(event) {
-      event.preventDefault();
-      this.$router.push("/home");
+      event.preventDefault()
+      this.$store.dispatch('user/login', this.form)
+      this.$router.push({
+        name: 'Home',
+        query: {
+          name: this.form.name,
+        },
+      })
       // Login
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
