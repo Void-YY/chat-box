@@ -2,13 +2,15 @@
   <div class="chat-area">
     <b-alert class="title" show>{{ $route.query.name }}</b-alert>
     <div class="history-area">
-      <b-alert show variant="primary" class="bubble from-they">
-        Primary Alert</b-alert
-      >
-      <b-alert show variant="dark" class="bubble from-me">
-        Primary AlertPrimary AlertPrimary AlertPrimary AlertPrimary AlertPrimary
-        AlertPrimary AlertPrimary Alert</b-alert
-      >
+      <div v-for="(message, index) in history" :key="index">
+        <b-alert show variant="primary" class="bubble from-they">
+          Primary Alert</b-alert
+        >
+        <b-alert show variant="dark" class="bubble from-me">
+          Primary AlertPrimary AlertPrimary AlertPrimary AlertPrimary
+          AlertPrimary AlertPrimary AlertPrimary Alert</b-alert
+        >
+      </div>
       {{ history }}
     </div>
     <b-input-group class="input-area">

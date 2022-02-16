@@ -6,7 +6,7 @@ const uri =
 
 const client = new MongoClient(uri)
 
-async function sendMessage(from, to, message) {
+async function sendMessage(from, to, message, time) {
   try {
     await client.connect()
 
@@ -16,7 +16,7 @@ async function sendMessage(from, to, message) {
       from: from,
       to: to,
       message: message,
-      time: new Date().getTime(),
+      time: time,
     }
     await messageCollection.insertOne(query)
     return new Promise((resolve, reject) => {
