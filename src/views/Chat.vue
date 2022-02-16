@@ -2,12 +2,13 @@
   <div class="chat-area">
     <b-alert class="title" show
       >{{ $route.query.name }}
-      <b-button class="download-button" variant="primary">
-        <b-icon
-          icon="cloud-arrow-down-fill"
-          aria-label="Help"
-          @click="downloadHistory"
-        ></b-icon>
+      <b-button
+        class="download-button"
+        variant="primary"
+        :disabled="history.length === 0"
+        @click="downloadHistory"
+      >
+        <b-icon icon="cloud-arrow-down-fill" aria-label="Help"></b-icon>
       </b-button>
     </b-alert>
     <div ref="history" class="history-area">
@@ -111,7 +112,9 @@ export default {
       const blob = new Blob([csv], { type: 'text/csv' })
       const link = document.createElement('a')
       link.href = window.URL.createObjectURL(blob)
-      link.download = 'Result.csv'
+      link.download = `${this.$store.state.user.login_info.name}_${
+        this.$route.query.name
+      }_${dayjs().format('YYYY-MM-DD_HH-mm-ss')}.csv`
       link.click()
     },
   },
