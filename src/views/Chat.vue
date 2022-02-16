@@ -1,23 +1,27 @@
 <template>
   <div class="chat-area">
     <b-alert class="title" show>{{ $route.query.name }}</b-alert>
-    <div class="history-area">
+    <div ref="history" class="history-area">
       <div v-for="(message, index) in history" :key="index">
-        <b-alert show variant="primary" class="bubble from-they">
-          Primary Alert</b-alert
+        <b-alert
+          v-if="message.from === $route.query.name"
+          show
+          variant="primary"
+          class="bubble from-they"
         >
-        <b-alert show variant="dark" class="bubble from-me">
-          Primary AlertPrimary AlertPrimary AlertPrimary AlertPrimary
-          AlertPrimary AlertPrimary AlertPrimary Alert</b-alert
+          {{ message.message }}</b-alert
+        >
+        <b-alert v-else show variant="dark" class="bubble from-me">
+          {{ message.message }}</b-alert
         >
       </div>
-      {{ history }}
     </div>
     <b-input-group class="input-area">
       <b-form-input
         size="lg"
         placeholder="Enter message"
         v-model="message"
+        @keyup.enter="sendMessage"
       ></b-form-input>
       <b-input-group-append>
         <b-button variant="info" :disabled="!message" @click="sendMessage"
@@ -43,6 +47,13 @@ export default {
       history: [],
     }
   },
+  watch: {
+    history: function (val) {
+      this.$nextTick(() => {
+        this.$refs.history.scrollTop = this.$refs.history.scrollHeight
+      })
+    },
+  },
   methods: {
     connectWebSocket() {
       const { name } = this.$store.state.user.login_info
@@ -57,11 +68,15 @@ export default {
       this.$router.push('/room')
     },
     sendMessage() {
-      this.$socket.emit(this.$event.SEND_MESSAGE, {
+      if (!this.message) return
+      const messageObject = {
         from: this.$store.state.user.login_info.name,
         to: this.$route.query.name,
         message: this.message,
-      })
+      }
+      this.$socket.emit(this.$event.SEND_MESSAGE, messageObject)
+      this.history.push(messageObject)
+      this.message = ''
     },
   },
 }
@@ -71,26 +86,29 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   > .title {
     width: 100%;
     margin-bottom: 0;
+    height: 3em;
   }
   > .history-area {
-    width: 100%;
     flex-grow: 1;
+    width: 100%;
     overflow-y: auto;
+    height: 0;
     border: 1px solid #ccc;
     padding: 10px;
-    display: flex;
-    flex-direction: column;
-    > .bubble {
-      text-align: left;
-      width: fit-content;
-      max-width: 80vw;
-      &.from-me {
-        align-self: flex-end;
+    > div {
+      display: flex;
+      flex-direction: column;
+      > .bubble {
+        text-align: left;
+        width: fit-content;
+        max-width: 80vw;
+        &.from-me {
+          align-self: flex-end;
+        }
       }
     }
   }

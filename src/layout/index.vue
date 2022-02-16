@@ -69,6 +69,7 @@ export default {
   > .route {
     width: 100%;
     flex-grow: 1;
+    max-height: max-content;
   }
 }
 .title {
