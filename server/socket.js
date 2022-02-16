@@ -3,10 +3,9 @@ const server = require('http').createServer()
 const io = require('socket.io')(server)
 const { insertUser, findUser, findAllUser } = require('./mongodb/index')
 const { sendMessage } = require('./mongodb/message')
+const currentUserList = []
 io.on('connection', (socket) => {
   socket.on(EVENT.REGISTER, async function (data) {
-    console.log(data)
-
     const name = data.name
     if (!name) {
       return
@@ -16,6 +15,13 @@ io.on('connection', (socket) => {
       name: name,
       socketId: socket.id,
     }
+    const currentUser = currentUserList.find((item) => item.name === name)
+    if (!currentUser) {
+      currentUserList.push(user)
+    } else {
+      currentUser.socketId = socket.id
+    }
+    console.log(currentUserList)
     const existUser = await findUser(user, false).catch(console.dir)
     console.warn('existUser:', existUser)
     if (!existUser) {
@@ -30,8 +36,10 @@ io.on('connection', (socket) => {
     const { from, to, message } = data
     const targetUser = await findUser({ name: to }, false).catch(console.dir)
     await sendMessage(from, targetUser, message).catch(console.dir)
-    console.info('sendMessage:', targetUser)
-    io.to(targetUser.socketId).emit(message)
+    const targetSocketId = currentUserList.find(
+      (user) => user.name === to
+    ).socketId
+    io.to(targetSocketId).emit(EVENT.RECEIVE_MESSAGE, message)
   })
 
   socket.on('disconnect', function () {

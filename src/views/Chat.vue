@@ -26,12 +26,30 @@
 </template>
 <script>
 export default {
+  sockets: {
+    connect: function () {
+      this.connectWebSocket()
+    },
+    RECEIVE_MESSAGE: function (data) {
+      this.history.push(data)
+    },
+  },
   data() {
     return {
       message: '',
+      history: [],
     }
   },
   methods: {
+    connectWebSocket() {
+      const { name } = this.$store.state.user.login_info
+      if (!name) {
+        this.$store.dispatch('user/signOut')
+      }
+      this.$socket.emit(this.$event.REGISTER, {
+        name: name,
+      })
+    },
     toRoom() {
       this.$router.push('/room')
     },

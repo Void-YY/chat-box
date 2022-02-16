@@ -14,7 +14,7 @@ async function sendMessage(from, to, message) {
     const messageCollection = await database.collection('message')
     const query = {
       from: from,
-      to: to.name,
+      to: to,
       message: message,
       time: new Date().getTime(),
     }
