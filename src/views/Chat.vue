@@ -40,6 +40,9 @@ export default {
     RECEIVE_MESSAGE: function (data) {
       this.history.push(data)
     },
+    GET_HISTORY: function (data) {
+      this.history = data
+    },
   },
   data() {
     return {
@@ -53,6 +56,12 @@ export default {
         this.$refs.history.scrollTop = this.$refs.history.scrollHeight
       })
     },
+  },
+  mounted() {
+    this.$socket.emit('GET_HISTORY', {
+      from: this.$store.state.user.login_info.name,
+      to: this.$route.query.name,
+    })
   },
   methods: {
     connectWebSocket() {
