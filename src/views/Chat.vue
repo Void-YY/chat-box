@@ -1,6 +1,15 @@
 <template>
   <div class="chat-area">
-    <b-alert class="title" show>{{ $route.query.name }}</b-alert>
+    <b-alert class="title" show
+      >{{ $route.query.name }}
+      <b-button class="download-button" variant="primary">
+        <b-icon
+          icon="cloud-arrow-down-fill"
+          aria-label="Help"
+          @click="downloadHistory"
+        ></b-icon>
+      </b-button>
+    </b-alert>
     <div ref="history" class="history-area">
       <div v-for="(message, index) in history" :key="index">
         <b-alert
@@ -32,6 +41,8 @@
   </div>
 </template>
 <script>
+import Papa from 'papaparse'
+import dayjs from 'dayjs'
 export default {
   sockets: {
     connect: function () {
@@ -87,6 +98,22 @@ export default {
       this.history.push(messageObject)
       this.message = ''
     },
+    downloadHistory() {
+      const data = this.history.map((data) => {
+        return {
+          from: data.from,
+          to: data.to,
+          message: data.message,
+          datetime: dayjs(data.time).format('YYYY-MM-DD HH:mm:ss'),
+        }
+      })
+      const csv = Papa.unparse(data)
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const link = document.createElement('a')
+      link.href = window.URL.createObjectURL(blob)
+      link.download = 'Result.csv'
+      link.click()
+    },
   },
 }
 </script>
@@ -100,6 +127,11 @@ export default {
     width: 100%;
     margin-bottom: 0;
     height: 3em;
+    > .download-button {
+      position: absolute;
+      right: 0.25em;
+      top: 0.25em;
+    }
   }
   > .history-area {
     flex-grow: 1;
