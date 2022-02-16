@@ -23,20 +23,13 @@ async function insertUser(user) {
   }
 }
 
-async function findUser(user, updateFlag = false) {
+async function findUser(user) {
   try {
     await client.connect()
 
     const database = client.db('chat')
     const users = await database.collection('users')
-    const result = updateFlag
-      ? await users.findOneAndUpdate(
-          { name: user.name },
-          {
-            $set: user,
-          }
-        )
-      : await users.findOne({ name: user.name })
+    const result = await users.findOne({ name: user.name })
 
     return new Promise((resolve, reject) => {
       resolve(result)

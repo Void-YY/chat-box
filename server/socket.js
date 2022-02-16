@@ -22,7 +22,7 @@ io.on('connection', (socket) => {
       currentUser.socketId = socket.id
     }
     console.log(currentUserList)
-    const existUser = await findUser(user, false).catch(console.dir)
+    const existUser = await findUser(user).catch(console.dir)
     console.warn('existUser:', existUser)
     if (!existUser) {
       await insertUser(user, true).catch(console.dir)
@@ -34,12 +34,17 @@ io.on('connection', (socket) => {
 
   socket.on(EVENT.SEND_MESSAGE, async function (data) {
     const { from, to, message } = data
-    const targetUser = await findUser({ name: to }, false).catch(console.dir)
-    await sendMessage(from, targetUser, message).catch(console.dir)
+    const time = new Date().getTime()
+    await sendMessage(from, to, message, time).catch(console.dir)
     const targetSocketId = currentUserList.find(
       (user) => user.name === to
     ).socketId
-    io.to(targetSocketId).emit(EVENT.RECEIVE_MESSAGE, message)
+    io.to(targetSocketId).emit(EVENT.RECEIVE_MESSAGE, {
+      from,
+      to,
+      message,
+      time,
+    })
   })
 
   socket.on('disconnect', function () {
@@ -48,7 +53,6 @@ io.on('connection', (socket) => {
 })
 
 const defaultSettings = require('../config/socket.json')
-const { Logger } = require('sass')
 const port = defaultSettings.port
 
 server.listen(port)

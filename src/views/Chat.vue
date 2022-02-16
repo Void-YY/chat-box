@@ -9,6 +9,7 @@
         Primary AlertPrimary AlertPrimary AlertPrimary AlertPrimary AlertPrimary
         AlertPrimary AlertPrimary Alert</b-alert
       >
+      {{ history }}
     </div>
     <b-input-group class="input-area">
       <b-form-input
