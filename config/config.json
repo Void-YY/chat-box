@@ -1,4 +1,7 @@
 {
+  "mongo": {
+    "uri": "mongodb+srv://chat:q1q1q1q1@cluster0.7sasm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+  },
   "BASE_ENCRYPT_CODE": "encryptCode",
   "BASE_ENCRYPT_KEY": "encryptKey"
 }

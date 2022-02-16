@@ -1,9 +1,6 @@
+const mongodbConfig = require('../../config/config.json').mongo
+const uri = mongodbConfig.uri
 const { MongoClient } = require('mongodb')
-
-// Replace the uri string with your MongoDB deployment's connection string.
-const uri =
-  'mongodb+srv://chat:q1q1q1q1@cluster0.7sasm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-
 const client = new MongoClient(uri)
 
 async function insertUser(user) {
