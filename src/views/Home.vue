@@ -52,6 +52,7 @@ export default {
       this.$router.push({
         name: 'Chat',
         query: {
+          me: this.$route.query.name,
           name: user.name,
           socketId: user.socketId,
         },

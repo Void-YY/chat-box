@@ -17,7 +17,9 @@
         v-model="message"
       ></b-form-input>
       <b-input-group-append>
-        <b-button variant="info" :disabled="!message">Send</b-button>
+        <b-button variant="info" :disabled="!message" @click="sendMessage"
+          >Send</b-button
+        >
       </b-input-group-append>
     </b-input-group>
   </div>
@@ -26,13 +28,19 @@
 export default {
   data() {
     return {
-      text: '',
       message: '',
     }
   },
   methods: {
     toRoom() {
       this.$router.push('/room')
+    },
+    sendMessage() {
+      this.$socket.emit(this.$event.SEND_MESSAGE, {
+        from: this.$store.state.user.login_info.name,
+        to: this.$route.query.name,
+        message: this.message,
+      })
     },
   },
 }
