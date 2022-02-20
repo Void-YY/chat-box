@@ -1,5 +1,5 @@
 {
-  "host": "158.101.131.153",
+  "host": "chat.void-yy.com",
   "port": 8083,
   "event": {
     "REGISTER": "REGISTER",
