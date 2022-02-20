@@ -24,7 +24,7 @@ const socketSettings = require('../config/socket.json')
 const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
 const socketConfig = new VueSocketIO({
   connection: SocketIO(
-    protocol + '://' + socketSettings.url + ':' + socketSettings.port,
+    protocol + '://' + socketSettings.host + ':' + socketSettings.port,
     {
       transports: ['websocket'],
     }
