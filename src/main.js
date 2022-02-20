@@ -21,10 +21,14 @@ Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 
 const socketSettings = require('../config/socket.json')
+const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
 const socketConfig = new VueSocketIO({
-  connection: SocketIO(socketSettings.url + ':' + socketSettings.port, {
-    transports: ['websocket'],
-  }),
+  connection: SocketIO(
+    protocol + '://' + socketSettings.url + ':' + socketSettings.port,
+    {
+      transports: ['websocket'],
+    }
+  ),
 })
 
 Vue.prototype.$event = require('../config/socket.json').event
